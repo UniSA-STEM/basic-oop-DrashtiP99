@@ -50,7 +50,7 @@ class Hacker:
         if rig is None:
             rig = Rig(f"{self._name}'s Rig")
         self._rig = rig
-        print(f"{self._name} activated {self._rig.get_name()}")
+        print(f"{self._rig.get_name()} has been activated")
         return True
 
     #method to check if rig has been exposed (trace level threshold of 5)

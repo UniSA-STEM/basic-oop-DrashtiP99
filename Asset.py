@@ -1,6 +1,6 @@
 """
 File: Asset.py
-Description:
+Description: This module represents the asset items in the Cyberpunk Simulation
 Author: Drashti Dineshchandra Patel
 ID: 110488649
 Username: patdy092

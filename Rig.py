@@ -12,7 +12,7 @@ import random
 
 class Rig:
     #initialise the rig
-    def __init(self, name):
+    def __init__(self, name):
         self._name = name
         self._damage_count = 0
         self._broken_state = False
