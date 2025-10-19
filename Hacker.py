@@ -57,6 +57,12 @@ class Hacker:
     def check_exposure(self):
         return self._trace_level > 5
 
+    #method to reduce trace after impact
+    def reduce_trace(self, n=1):
+        self._trace_level = max(0, self._trace_level - n)
+        print(f"{self._name} reduced trace level to {self._trace_level}")
+
+
     #method for launching data spike by using a Data Spike for rig storage
     #each hit increases opponent rigs damage
     #if opponent rig breaks then hacker can extract unsecured assets by using a removable drive
@@ -207,7 +213,80 @@ class Hacker:
 
     #method for storing asset's in rig's storage
 
-    def rig_store(self):
+    def store_to_rig(self, asset_name = None):
+        #check for presence of rig
+        if self._rig is None:
+            print(f"{self._name} there is no rig to store assets!")
+            return False
+
+        #check for specific asset, if None store all into rig
+        if asset_name is None:
+            n_stored = 0
+            for asset in list(self._inventory):
+                if asset.get_name() == asset_name:
+                    n_stored += 1
+                else:
+                    break #for full storage
+            #print the stored items number
+            if n_stored > 0:
+                print(f"{self._name} has stored {n_stored} assets in {self._rig.get.name()}")
+            return n_stored
+        else:
+            #need to store the specific items
+            asset = self.scan_inventory(asset_name)
+            if asset is None:
+                print(f"{asset_name} not found in Inventory")
+                return True
+            else:
+                #storage is full so return to inventory
+                self._inventory.append(asset)
+                return False
+
+    #method for acquiring/retrieving the assets from the rig
+    def retrieve_from_rig(self, asset_name = None):
+        if self._rig is None:
+            print(f"{self._name} there is no rig.")
+            return False
+        if asset_name is None:
+            list_retrieved = []
+            for asset in list(self._rig.get_storage()):
+                if asset.encryption_status() is False:
+                    self._rig.get_storage().remove(asset)
+                    self._inventory.append(asset)
+                    list_retrieved.append(asset.get_name())
+            if list_retrieved:
+                print(f"{self._name} retrieved - {', '.join(list_retrieved)}")
+            else:
+                print(f"There are no unencrypted assets in {self._rig.get.name()}")
+            return True
+        else:
+            #get a specific
+            asset = self._rig.release_asset(asset_name)
+            if asset is None:
+                print(f"{asset_name} is encrypted or not found in storage")
+                return False
+            self._inventory.append(asset)
+            print(f"{self._name} has retrieved {asset.get_name()}")
+            return True
+
+        #represent in string format
+    def __str__(self):
+        if self._rig:
+            rig_name = self._rig.get_name()
+        else:
+            rig_name = None
+        inventory_str = ", ".join([asset.get_name() for asset in self._inventory])
+        return f"Hacker Name: {self._name}, Rig: {rig_name}, Inventory: [{inventory_str}], Trace Level: {self._trace_level}"
+
+
+
+
+
+
+
+
+
+
 
 
 
