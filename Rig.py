@@ -18,6 +18,7 @@ class Rig:
         self._broken_state = False
         self._storage = []
         self._upgrade_lvl = 0
+        self._max_storage = 5 #base capacity of the storage
 
     #Append starting assets - 2 Data Spikes and 1 removable drive
     #Note Asset form = (name, description)
@@ -60,7 +61,8 @@ class Rig:
     #perform upgrades using hardware patch and increment level
     def upgrade(self, hardware_patch):
         self._upgrade_lvl += 1
-        print(f"{self._name} has been upgraded to level = {self._upgrade_lvl}")
+        self._max_storage +=3
+        print(f"{self._name} has been upgraded to level = {self._upgrade_lvl}\n Storage Capacity = {self._max_storage}")
 
     #Rigs can take a hit from data spikes which increases damage level by 1
     def take_hit(self):
@@ -95,7 +97,11 @@ class Rig:
 
     #store the given asset into the storage list
     def store_asset(self, asset):
+        if len(self._storage) >= self._max_storage:
+            print(f"{self._nqme} the storage is full!")
+            return False
         self._storage.append(asset)
+        return True
 
     #release given asset from storage list if not encrypted
     def release_asset(self, name_asset):
@@ -121,7 +127,7 @@ class Rig:
     def __str__(self):
         store_list = ",".join([asset.get_name() for asset in self._storage])
 
-        return f"Rig Name:{self._name}, Condition: {self.get_rig_state()}, Storage:[{store_list}]"
+        return f"Rig Name:{self._name}, Condition: {self.get_rig_state()}, Storage:[{store_list}] ({len(self._storage)}/{self._max_storage})"
 
 
 
