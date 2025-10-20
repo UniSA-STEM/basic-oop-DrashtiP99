@@ -99,7 +99,7 @@ class Hacker:
     #extraction consumes a removable drive -> check if available or not
     #extraction increases trace level for attacking rig
     def extract_asset(self, target_rig):
-        if not self.target_rig.get_broken():
+        if not target_rig.get_broken():
             print(f"Target Rig = {target_rig.get_name()} is not broken. Cannot extract assets")
             return False
 

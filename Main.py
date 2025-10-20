@@ -1,6 +1,6 @@
 """
 File: main.py
-Description: This module tests the various methods and outputs
+Description: This module tests the various methods and edge cases
 Author: Drashti Dineshchandra Patel
 ID: 110488649
 Username: patdy092
@@ -88,7 +88,7 @@ def test_encryption_transfer():
     hacker = Hacker("007")
     hacker.acquire_rig()
 
-    hacker.get_rig().store_asset("Security Chip", "Used to encrypt or decrypt assets")
+    hacker.get_rig().store_asset(Asset("Security Chip", "Used to encrypt or decrypt assets"))
     print(hacker.get_rig())
 
     print("\nEncrypting data spike")
@@ -110,12 +110,11 @@ def test_asset_extraction():
     hack2 = Hacker("Glitch")
     hack2.acquire_rig()
 
-    # set hacker 2 to be the target rig
-    target_rig = hack2.get_rig()
+
 
     #add to inventory
     hack1.get_inventory().append(Asset("Removable Drive", "Used for Extraction"))
-    target_rig = target_rig.get_rig()
+    target_rig = hack2.get_rig()
 
     #launch the spike
     hack1.launch_spike(target_rig)

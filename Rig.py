@@ -37,7 +37,7 @@ class Rig:
     def get_broken(self):
         return self._broken_state
 
-    def get_inventory(self):
+    def get_storage(self):
         return self._storage
 
     def get_upgrade_lvl(self):
