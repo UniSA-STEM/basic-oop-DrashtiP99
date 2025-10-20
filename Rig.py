@@ -80,8 +80,8 @@ class Rig:
     def generate_asset(self):
         #define all asset types possible
         asset_list = [("Data Spike", "Used in battles"),
-                      ("CryptoToken", " Used to acquire or repair rigs"),
-                      ("Removable Drive", " Found in rigs and used for extraction"),
+                      ("CryptoToken", "Used to acquire or repair rigs"),
+                      ("Removable Drive", "Found in rigs and used for extraction"),
                       ("Security Chip", "Used to encrypt or decrypt assets"),
                       ("Hardware Patch", "Used to upgrade rigs")]
         #randomly select from the possible assets

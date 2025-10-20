@@ -123,9 +123,23 @@ class Hacker:
         else:
             print(f"No unsecured assets in target = {target_rig.get_name()}")
 
-        return True
+        return extracted_assets
 
     #define methods for asset encryption and decryption
+    #helper for encrypt_asset() function
+    def find_asset(self, asset_name, location):
+        if location=="Inventory":
+            search_l = self._inventory
+        elif location=="Rig":
+            search_l = self._rig
+        else:
+            return None
+        for asset in search_l:
+            if asset.get_name() == asset_name:
+                return asset
+        return None
+
+
     #consumes a security chip
     #asset can either be in inventory or storage
     def encrypt_asset(self, asset_name, location = "Inventory"):
@@ -136,31 +150,17 @@ class Hacker:
             return False
 
         #first find the target asset
-        target_asset = None
-        if location == "Inventory":
-            for asset in self._inventory:
-                if asset.get_name() == asset_name:
-                    target_asset = asset
-                    break
-        elif location == "Rig" and self._rig is not None:
-            for asset in self._rig.get_storage():
-                if asset.get_name() == asset_name:
-                    target_asset = asset
-                    break
-        #check existence and encryption of asset
+        target_asset = self.find_asset(asset_name, location)
         if target_asset is None:
-            print(f"{asset_name} not found in {location}")
+            print(f"Asset = {asset_name} not found")
             return False
         if target_asset.encryption_status():
-            print(f"{asset_name} is already encrypted")
+            print(f"Target Asset is already encrypted")
             return False
-
-        #complete encryption
         target_asset.set_encryption(True)
         print(f"{self._name} has encrypted {asset_name}")
         return True
 
-    #decryption follows same code as above, with set_encryption as False
 
     def decrypt_asset(self, asset_name, location="Inventory"):
 
@@ -171,17 +171,7 @@ class Hacker:
             return False
 
         # first find the target asset
-        target_asset = None
-        if location == "Inventory":
-            for asset in self._inventory:
-                if asset.get_name() == asset_name:
-                    target_asset = asset
-                    break
-        elif location == "Rig" and self._rig is not None:
-            for asset in self._rig.get_storage():
-                if asset.get_name() == asset_name:
-                    target_asset = asset
-                    break
+        target_asset = self.find_asset(asset_name, location)
         # check existence and decryption of asset
         if target_asset is None:
             print(f"{asset_name} not found in {location}")
